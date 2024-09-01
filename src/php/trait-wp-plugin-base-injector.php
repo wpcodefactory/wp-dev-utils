@@ -9,7 +9,12 @@
 
 namespace WPFactory\WP_Plugin_Base;
 
-if ( trait_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base_Injector' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
+
+
+if ( ! trait_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base_Injector' ) ) {
 
 	trait WP_Plugin_Base_Injector {
 

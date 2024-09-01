@@ -28,6 +28,7 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
+		//use Singleton;
 		use Singleton;
 
 		/**

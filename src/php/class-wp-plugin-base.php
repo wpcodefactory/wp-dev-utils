@@ -28,7 +28,6 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		//use Singleton;
 		use Singleton;
 
 		/**
@@ -48,6 +47,11 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 		 * @var Database_Manager
 		 */
 		public $db;
+
+		protected $events = array(
+			'plugin_activation',
+			'plugin_deactivation',
+		);
 
 		/**
 		 * Setups the class.
@@ -146,13 +150,17 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 
 			// Activation.
 			if ( 'activate_' . $file === current_filter() ) {
-				$this->on_action_trigger( 'plugin_activation' );
+				$this->trigger_event( 'plugin_activation' );
 			}
 
 			// Deactivation.
 			if ( 'deactivate_' . $file === current_filter() ) {
-				$this->on_action_trigger( 'plugin_deactivation' );
+				$this->trigger_event( 'plugin_deactivation' );
 			}
+		}
+
+		function trigger_event( $event, $params = null ) {
+			call_user_func_array( array( $this, "on_{$event}" ), $params );
 		}
 
 		/**
@@ -238,6 +246,8 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 			return $this->setup_args;
 		}
 
+
+
 		/**
 		 * on_action_trigger.
 		 *
@@ -249,7 +259,7 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 		 *
 		 * @return mixed
 		 */
-		abstract protected function on_action_trigger( $action, $params = null );
+		//abstract protected function on_action_trigger( $action, $params = null );
 
 	}
 }

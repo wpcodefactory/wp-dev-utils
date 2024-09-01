@@ -7,13 +7,13 @@
  * @author  WPFactory
  */
 
-namespace WPFactory\WPF_Plugin;
+namespace WPFactory\WP_Plugin_Base;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-if ( ! class_exists( 'WPFactory\WPF_Plugin\Database' ) ) {
+if ( ! class_exists( 'WPFactory\WP_Plugin_Base\Database' ) ) {
 
 	class Database {
 
@@ -22,7 +22,7 @@ if ( ! class_exists( 'WPFactory\WPF_Plugin\Database' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		use WPF_Plugin_Injector;
+		use WP_Plugin_Base_Injector;
 
 		/**
 		 * Options.

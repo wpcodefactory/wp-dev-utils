@@ -1,5 +1,5 @@
 {
-  "name": "wpfactory/wpf-plugin",
+  "name": "wpfactory/wp-plugin-base",
   "autoload": {
     "classmap": [
       "src/php/"

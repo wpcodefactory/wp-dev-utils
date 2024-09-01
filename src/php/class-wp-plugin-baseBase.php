@@ -7,13 +7,13 @@
  * @author  WPFactory
  */
 
-namespace WPFactory\WPF_Plugin;
+namespace WPFactory\WP_Plugin_Base;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-if ( ! class_exists( 'WPFactory\WPF_Plugin\WPF_Plugin' ) ) {
+if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 
 	/**
 	 * WPF_Plugin.
@@ -21,7 +21,7 @@ if ( ! class_exists( 'WPFactory\WPF_Plugin\WPF_Plugin' ) ) {
 	 * @version 1.0.0
 	 * @since   1.0.0
 	 */
-	abstract class WPF_Plugin {
+	abstract class WP_Plugin_Base {
 
 		/**
 		 * Singleton Trait.

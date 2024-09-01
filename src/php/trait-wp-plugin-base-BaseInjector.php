@@ -7,9 +7,9 @@
  * @author  WPFactory
  */
 
-namespace WPFactory\WPF_Plugin;
+namespace WPFactory\WP_Plugin_Base;
 
-trait WPF_Plugin_Injector {
+trait WP_Plugin_Base_Injector {
 
 	/**
 	 * $wpf_plugin.

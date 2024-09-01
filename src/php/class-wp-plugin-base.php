@@ -44,7 +44,7 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @var Database
+		 * @var Database_Manager
 		 */
 		public $db;
 
@@ -100,8 +100,9 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 			$args = $this->get_setup_args();
 
 			// Database class.
-			$this->db = new Database();
-			$this->db->set_wpf_plugin( $this );
+			$db = new Database_Manager();
+			$db->set_wp_plugin_base( $this );
+			$this->set_db_manager( $db );
 
 			// Action links.
 			if ( ! empty( $args['action_links'] ) ) {
@@ -116,6 +117,18 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 
 			// Handles plugin activation and deactivation.
 			$this->handle_activation_deactivation();
+		}
+
+		/**
+		 * Sets db manager.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @param   Database_Manager  $db
+		 */
+		public function set_db_manager( Database_Manager $db ) {
+			$this->db = $db;
 		}
 
 		/**

@@ -1,6 +1,6 @@
 <?php
 /**
- * WPF Plugin Database class
+ * WP Plugin Base Database Manager
  *
  * @version 1.0.0
  * @since   1.0.0
@@ -13,12 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-if ( ! class_exists( 'WPFactory\WP_Plugin_Base\Database' ) ) {
+if ( ! class_exists( 'WPFactory\WP_Plugin_Base\Database_Manager' ) ) {
 
-	class Database {
+	class Database_Manager {
 
 		/**
-		 * WPF Plugin Injector.
+		 * WP Plugin Base Injector.
 		 *
 		 * @since 1.0.0
 		 */

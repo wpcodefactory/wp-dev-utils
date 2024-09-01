@@ -9,54 +9,58 @@
 
 namespace WPFactory\WP_Plugin_Base;
 
-trait Singleton {
+if ( trait_exists( 'WPFactory\WP_Plugin_Base\Singleton' ) ) {
 
-	/**
-	 * Instances.
-	 *
-	 * @version 1.0.0
-	 * @since   1.0.0
-	 *
-	 * @var array
-	 */
-	private static $instances = [];
+	trait Singleton {
 
-	/**
-	 * Constructor.
-	 *
-	 * @version 1.0.0
-	 * @since   1.0.0
-	 */
-	protected function __construct() {
-		// Prevent creating a new instance externally
-	}
+		/**
+		 * Instances.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @var array
+		 */
+		private static $instances = [];
 
-	/**
-	 * Clone.
-	 *
-	 * @version 1.0.0
-	 * @since   1.0.0
-	 *
-	 * @return void
-	 */
-	protected function __clone() {
-		// Prevent cloning the instance
-	}
-
-	/**
-	 * get_instance.
-	 *
-	 * @version 1.0.0
-	 * @since   1.0.0
-	 *
-	 * @return mixed|static
-	 */
-	public static function get_instance() {
-		$class = static::class;
-		if ( ! isset( self::$instances[ $class ] ) ) {
-			self::$instances[ $class ] = new static();
+		/**
+		 * Constructor.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 */
+		protected function __construct() {
+			// Prevent creating a new instance externally
 		}
 
-		return self::$instances[ $class ];
+		/**
+		 * Clone.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return void
+		 */
+		protected function __clone() {
+			// Prevent cloning the instance
+		}
+
+		/**
+		 * get_instance.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return mixed|static
+		 */
+		public static function get_instance() {
+			$class = static::class;
+			if ( ! isset( self::$instances[ $class ] ) ) {
+				self::$instances[ $class ] = new static();
+			}
+
+			return self::$instances[ $class ];
+		}
 	}
+
 }

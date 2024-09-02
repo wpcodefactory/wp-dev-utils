@@ -48,9 +48,17 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 		 */
 		public $db;
 
+		/**
+		 * events.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @var string[]
+		 */
 		protected $events = array(
 			'plugin_activation',
 			'plugin_deactivation',
+			'plugin_update',
 		);
 
 		/**
@@ -67,6 +75,7 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 			$args = wp_parse_args( $args, array(
 				'file_path'         => '',
 				'activation_hook'   => '',
+				'use_db_manager'    => true,
 				'deactivation_hook' => '',
 				'version'           => '',
 				'localization'      => array(),
@@ -105,9 +114,11 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 			$args = $this->get_setup_args();
 
 			// Database class.
-			$db = new Database_Manager();
-			$db->set_wp_plugin_base( $this );
-			$this->set_db_manager( $db );
+			if ( $args['use_db_manager'] ) {
+				$db = new Database_Manager();
+				$db->set_wp_plugin_base( $this );
+				$this->set_db_manager( $db );
+			}
 
 			// Action links.
 			if ( ! empty( $args['action_links'] ) ) {
@@ -172,16 +183,11 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 		 */
 		public function __call( $name, $arguments ) {
 			if (
-				! method_exists( $this, $name ) &&
-				! in_array( preg_replace('/^on_/', '', $name), $this->events )
+				! method_exists( $this, $name )	&&
+				! in_array( preg_replace( '/^on_/', '', $name ), $this->events )
 			) {
 				trigger_error( "Method '$name' does not exist or is not allowed.", E_USER_ERROR );
 			}
-			/*if ( !method_exists($this, $name) && in_array( $name, $this->events ) ) {
-				//call_user_func_array( array( $this, "on_{$name}" ), $arguments );
-			} else {
-				trigger_error( "Method '$name' does not exist or is not allowed.", E_USER_ERROR );
-			}*/
 		}
 
 		/**
@@ -216,13 +222,20 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 				$old_version = $this->db->get_option( $meta_key, '' );
 			}
 			if ( ! empty( $meta_key ) && $old_version !== $setup_args['version'] ) {
+
+
 				if ( ! empty( $update_version_hook ) ) {
-					do_action( $update_version_hook, array(
+
+					/*do_action( $update_version_hook, array(
 						'old_version' => $old_version,
 						'new_version' => $setup_args['version']
-					) );
+					) );*/
 				}
 				update_option( $meta_key, sanitize_text_field( $setup_args['version'] ) );
+				trigger_event( 'plugin_update', array(
+					'old_version' => $old_version,
+					'new_version' => $setup_args['version']
+				) );
 			}
 		}
 
@@ -282,7 +295,17 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 			return $this->setup_args;
 		}
 
-
+		/**
+		 * gets_events.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return string[]
+		 */
+		public function get_events(): array {
+			return $this->events;
+		}
 
 		/**
 		 * on_action_trigger.

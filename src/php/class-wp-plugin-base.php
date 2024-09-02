@@ -92,8 +92,8 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 
 			// Versioning.
 			$args['versioning'] = wp_parse_args( $args['versioning'], array(
-				'version_number' => '1.0.0',
-				'version_meta'   => '',
+				'version'      => '1.0.0',
+				'version_meta' => '',
 			) );
 
 			$this->setup_args = $args;
@@ -213,22 +213,22 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 		function version_checking() {
 			$setup_args     = $this->get_setup_args();
 			$versioning     = $setup_args['versioning'] ?? '';
-			$version_number = $versioning['version_number'] ?? '';
+			$version = $versioning['version'] ?? '';
 			$meta_key       = $versioning['version_meta'] ?? '';
 			if ( ! empty( $meta_key ) ) {
 				$old_version = $this->db->get_option( $meta_key, '' );
 			}
-			if ( ! empty( $meta_key ) && $old_version !== $version_number ) {
-				update_option( $meta_key, sanitize_text_field( $version_number ), false );
+			if ( ! empty( $meta_key ) && $old_version !== $version ) {
+				update_option( $meta_key, sanitize_text_field( $version ), false );
 				$this->trigger_event( 'plugin_update', array(
 					'old_version' => $old_version,
-					'new_version' => $version_number
+					'new_version' => $version
 				) );
 			}
 		}
 
 		/**
-		 * localizes.
+		 * Localizes the plugin.
 		 *
 		 * @version 1.0.0
 		 * @since   1.0.0
@@ -289,24 +289,11 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 		 * @version 1.0.0
 		 * @since   1.0.0
 		 *
-		 * @return string[]
+		 * @return array
 		 */
-		public function get_events(): array {
+		public function get_events() {
 			return $this->events;
 		}
-
-		/**
-		 * on_action_trigger.
-		 *
-		 * @version 1.0.0
-		 * @since   1.0.0
-		 *
-		 * @param $action
-		 * @param $params
-		 *
-		 * @return mixed
-		 */
-		//abstract protected function on_action_trigger( $action, $params = null );
 
 	}
 }

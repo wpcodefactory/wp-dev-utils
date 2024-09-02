@@ -218,7 +218,7 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 			if ( ! empty( $meta_key ) ) {
 				$old_version = $this->db->get_option( $meta_key, '' );
 			}
-			if ( ! empty( $meta_key ) && $old_version !== $setup_args['version'] ) {
+			if ( ! empty( $meta_key ) && $old_version !== $version_number ) {
 				update_option( $meta_key, sanitize_text_field( $version_number ), false );
 				$this->trigger_event( 'plugin_update', array(
 					'old_version' => $old_version,

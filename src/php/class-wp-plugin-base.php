@@ -196,7 +196,7 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 		 * @return void
 		 */
 		function trigger_event( $event, $params = null ) {
-			call_user_func_array( array( $this, "on_{$event}" ), $params );
+			call_user_func_array( array( $this, "on_{$event}" ), array( $params ) );
 		}
 
 		/**

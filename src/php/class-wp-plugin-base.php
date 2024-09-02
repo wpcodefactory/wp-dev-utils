@@ -159,6 +159,42 @@ if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
 			}
 		}
 
+		/**
+		 * __call.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @param $name
+		 * @param $arguments
+		 *
+		 * @return void
+		 */
+		public function __call( $name, $arguments ) {
+			if (
+				! method_exists( $this, $name ) &&
+				! in_array( preg_replace('/^on_/', '', $name), $this->events )
+			) {
+				trigger_error( "Method '$name' does not exist or is not allowed.", E_USER_ERROR );
+			}
+			/*if ( !method_exists($this, $name) && in_array( $name, $this->events ) ) {
+				//call_user_func_array( array( $this, "on_{$name}" ), $arguments );
+			} else {
+				trigger_error( "Method '$name' does not exist or is not allowed.", E_USER_ERROR );
+			}*/
+		}
+
+		/**
+		 * trigger_event.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @param $event
+		 * @param $params
+		 *
+		 * @return void
+		 */
 		function trigger_event( $event, $params = null ) {
 			call_user_func_array( array( $this, "on_{$event}" ), $params );
 		}

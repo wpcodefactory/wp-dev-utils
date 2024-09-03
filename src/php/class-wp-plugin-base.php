@@ -123,7 +123,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			}
 
 			// Localization.
-			add_action( $args['localization']['action_hook'], array( $this, 'localize' ) );
+			$this->add_action( $args['localization']['action_hook'], array( $this, 'localize' ) );
 
 			// Version checking.
 			add_action( 'admin_init', array( $this, 'version_checking' ) );
@@ -269,6 +269,27 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 
 				return $links;
 			} );
+		}
+
+		/**
+		 * Runs the add_action() callback if the hook_name is the current_filter.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @param $hook_name
+		 * @param $callback
+		 * @param $priority
+		 * @param $accepted_args
+		 *
+		 * @return void
+		 */
+		function add_action( $hook_name, $callback, $priority = 10, $accepted_args = 1 ) {
+			if ( $hook_name === current_filter() ) {
+				$callback();
+			} else {
+				add_action( $hook_name, $callback, $priority, $accepted_args );
+			}
 		}
 
 		/**

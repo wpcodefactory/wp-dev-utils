@@ -7,14 +7,14 @@
  * @author  WPFactory
  */
 
-namespace WPFactory\WP_Plugin_Base;
+namespace WPFactory\WP_Dev_Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
 
-if ( ! trait_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base_Injector' ) ) {
+if ( ! trait_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base_Injector' ) ) {
 
 	trait WP_Plugin_Base_Injector {
 

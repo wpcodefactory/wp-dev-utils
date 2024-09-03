@@ -7,13 +7,13 @@
  * @author  WPFactory
  */
 
-namespace WPFactory\WP_Plugin_Base;
+namespace WPFactory\WP_Dev_Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-if ( ! class_exists( 'WPFactory\WP_Plugin_Base\WP_Plugin_Base' ) ) {
+if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 
 	/**
 	 * WPF_Plugin.

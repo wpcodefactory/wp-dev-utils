@@ -7,13 +7,13 @@
  * @author  WPFactory
  */
 
-namespace WPFactory\WP_Plugin_Base;
+namespace WPFactory\WP_Dev_Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-if ( ! trait_exists( 'WPFactory\WP_Plugin_Base\Singleton' ) ) {
+if ( ! trait_exists( 'WPFactory\WP_Dev_Utils\Singleton' ) ) {
 
 	trait Singleton {
 

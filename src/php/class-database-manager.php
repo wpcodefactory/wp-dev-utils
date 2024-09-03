@@ -18,6 +18,13 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\Database_Manager' ) ) {
 	class Database_Manager {
 
 		/**
+		 * WP Plugin Base Injector.
+		 *
+		 * @since 1.0.0
+		 */
+		use WP_Plugin_Base_Injector;
+
+		/**
 		 * Options.
 		 *
 		 * @since 1.0.0

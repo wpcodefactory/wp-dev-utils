@@ -1,5 +1,5 @@
 {
-  "name": "wpfactory/wp-plugin-base",
+  "name": "wpfactory/wp-dev-utils",
   "autoload": {
     "classmap": [
       "src/php/"

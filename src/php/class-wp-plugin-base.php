@@ -100,6 +100,21 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		}
 
 		/**
+		 * set_action_links.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @param $action_links
+		 *
+		 * @return void
+		 */
+		function set_action_links( $action_links ) {
+			$args                             = $this->get_setup_args();
+			$this->setup_args['action_links'] = $action_links;
+		}
+
+		/**
 		 * Initializes the class.
 		 *
 		 * @version 1.0.0

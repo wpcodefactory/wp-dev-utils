@@ -98,15 +98,15 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			) );
 
 			// Plugin dependency.
-			$args['requires_plugins'] = wp_parse_args( $args['requires_plugins'], array(
+			$args['requires_plugins'] = $this->wp_parse_args_r( $args['requires_plugins'], array(
 				array(
-					'plugin'  => '', //Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php
-					'status'  => 'enabled', // enabled | disabled
-					'message' => 'Plugin {name} depends on {required_plugin} {plugin_status}.'
+					'plugin_path'   => '', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php
+					'plugin_name'   => '', // Plugin name
+					'status'        => 'enabled', // enabled | disabled
+					'error_message' => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{plugin_status}.</strong>',
+					'show_notice'   => true
 				)
 			) );
-
-			// Plugin dependency
 
 			$this->setup_args = $args;
 		}
@@ -121,6 +121,13 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		 */
 		function init() {
 			$args = $this->get_setup_args();
+
+			/*$dependency_manager = new Plugin_Dependency_Manager();
+			$dependency_manager->setup( $args );
+			$dependency_manager->init();
+			if ( ! empty( $dependency_manager->check_requirements() ) ) {
+				return;
+			}*/
 
 			// Database class.
 			if ( $args['use_db_manager'] ) {
@@ -333,6 +340,32 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		 */
 		public function get_events() {
 			return $this->events;
+		}
+
+		/**
+		 * wp_parse_args_r.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @param $a
+		 * @param $b
+		 *
+		 * @return array
+		 */
+		function wp_parse_args_r( &$a, $b ) {
+			$a      = (array) $a;
+			$b      = (array) $b;
+			$result = $b;
+			foreach ( $a as $k => &$v ) {
+				if ( is_array( $v ) && isset( $result[ $k ] ) ) {
+					$result[ $k ] = $this->wp_parse_args_r( $v, $result[ $k ] );
+				} else {
+					$result[ $k ] = $v;
+				}
+			}
+
+			return $result;
 		}
 
 	}

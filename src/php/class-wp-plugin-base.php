@@ -53,7 +53,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @var string[]
+		 * @var array
 		 */
 		protected $events = array(
 			'plugin_activation',
@@ -77,6 +77,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 				'use_db_manager'    => true,
 				'versioning'        => array(),
 				'localization'      => array(),
+				'requires_plugins'  => array(),
 				'action_links'      => array(
 					//array( 'label' => 'Test', 'link' => 'http://test.com', 'target' => '_self' ),
 					//array( 'label' => 'Test', 'link' => 'http://test.com', 'target' => '_blank' ),
@@ -96,22 +97,18 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 				'version_meta' => '',
 			) );
 
-			$this->setup_args = $args;
-		}
+			// Plugin dependency.
+			$args['requires_plugins'] = wp_parse_args( $args['requires_plugins'], array(
+				array(
+					'plugin'  => '', //Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php
+					'status'  => 'enabled', // enabled | disabled
+					'message' => 'Plugin {name} depends on {required_plugin} {plugin_status}.'
+				)
+			) );
 
-		/**
-		 * set_action_links.
-		 *
-		 * @version 1.0.0
-		 * @since   1.0.0
-		 *
-		 * @param $action_links
-		 *
-		 * @return void
-		 */
-		function set_action_links( $action_links ) {
-			$args                             = $this->get_setup_args();
-			$this->setup_args['action_links'] = $action_links;
+			// Plugin dependency
+
+			$this->setup_args = $args;
 		}
 
 		/**
@@ -145,6 +142,13 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 
 			// Handles plugin activation and deactivation.
 			$this->handle_activation_deactivation();
+
+			// Handles plugin dependency
+			$this->handle_plugin_dependency();
+		}
+
+		function handle_plugin_dependency(){
+			$args = $this->get_setup_args();
 		}
 
 		/**
@@ -266,11 +270,11 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		 * @version 1.0.0
 		 * @since   1.0.0
 		 *
-		 * @param $action_links
+		 * @param   array  $action_links  Expected an array with nested arrays. Example: array( array( 'link' => '', 'target' =>'', 'label'=>'' ) )
 		 *
 		 * @return void
 		 */
-		function add_action_links( $action_links ) {
+		function add_action_links( $action_links = array() ) {
 			$setup_args = $this->get_setup_args();
 			add_filter( 'plugin_action_links_' . plugin_basename( $setup_args['file_path'] ), function ( $links ) use ( $action_links ) {
 				$custom_links = array();

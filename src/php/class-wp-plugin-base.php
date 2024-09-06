@@ -40,6 +40,15 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		protected $setup_args = array();
 
 		/**
+		 * Plugin Dependency Manager.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @var Plugin_Dependency_Manager
+		 */
+		protected $plugin_dependency_manager;
+
+		/**
 		 * Database.
 		 *
 		 * @since 1.0.0
@@ -103,12 +112,51 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 					'plugin_path'   => '', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php
 					'plugin_name'   => '', // Plugin name
 					'status'        => 'enabled', // enabled | disabled
-					'error_message' => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{plugin_status}.</strong>',
+					'error_message' => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{required_plugin_status}.</strong>',
 					'show_notice'   => true
 				)
 			) );
 
 			$this->setup_args = $args;
+		}
+
+		/**
+		 * get_plugin_dependency_manager.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return Plugin_Dependency_Manager
+		 */
+		function get_plugin_dependency_manager() {
+			if ( is_null( $this->plugin_dependency_manager ) ) {
+				// Setup args.
+				$args = $this->get_setup_args();
+
+				// Dependency manager.
+				$this->plugin_dependency_manager = new Plugin_Dependency_Manager();
+				$this->plugin_dependency_manager->setup( $args );
+				$this->plugin_dependency_manager->init();
+			}
+
+			return $this->plugin_dependency_manager;
+		}
+
+		/**
+		 * requirements_passed.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return bool
+		 */
+		function plugin_requirements_passed() {
+			$dependency_manager = $this->get_plugin_dependency_manager();
+			if ( ! empty( $dependency_manager->get_failed_requirements() ) ) {
+				return false;
+			}
+
+			return true;
 		}
 
 		/**
@@ -122,12 +170,10 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		function init() {
 			$args = $this->get_setup_args();
 
-			/*$dependency_manager = new Plugin_Dependency_Manager();
-			$dependency_manager->setup( $args );
-			$dependency_manager->init();
-			if ( ! empty( $dependency_manager->check_requirements() ) ) {
-				return;
-			}*/
+			// Do not init if plugin requirements didn't pass.
+			if ( $this->plugin_requirements_passed() ) {
+				return false;
+			}
 
 			// Database class.
 			if ( $args['use_db_manager'] ) {
@@ -150,12 +196,6 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			// Handles plugin activation and deactivation.
 			$this->handle_activation_deactivation();
 
-			// Handles plugin dependency
-			$this->handle_plugin_dependency();
-		}
-
-		function handle_plugin_dependency(){
-			$args = $this->get_setup_args();
 		}
 
 		/**

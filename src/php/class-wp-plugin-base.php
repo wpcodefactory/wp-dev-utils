@@ -96,7 +96,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 				'use_db_manager'    => true,
 				'versioning'        => array(),
 				'localization'      => array(),
-				'requires_plugins'  => array(),
+				'plugin_dependency'  => array(),
 				'action_links'      => array(
 					//array( 'label' => 'Test', 'link' => 'http://test.com', 'target' => '_self' ),
 					//array( 'label' => 'Test', 'link' => 'http://test.com', 'target' => '_blank' ),
@@ -117,7 +117,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			) );
 
 			// Plugin dependency.
-			$args['requires_plugins'] = Array_Utils::wp_parse_args_r( $args['requires_plugins'], array(
+			$args['plugin_dependency'] = Array_Utils::wp_parse_args_r( $args['plugin_dependency'], array(
 				array(
 					'plugin_path'   => '', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php
 					'plugin_name'   => '', // Plugin name

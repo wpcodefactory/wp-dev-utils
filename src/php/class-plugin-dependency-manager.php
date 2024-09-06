@@ -57,11 +57,11 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\Plugin_Dependency_Manager' ) ) {
 		function setup( $args = null ) {
 			$args = wp_parse_args( $args, array(
 				'file_path'        => '', // Dependent plugin file path.
-				'requires_plugins' => array(),
+				'plugin_dependency' => array(),
 			) );
 
 			// Plugin dependency.
-			$args['requires_plugins'] = Array_Utils::wp_parse_args_r( $args['requires_plugins'], array(
+			$args['plugin_dependency'] = Array_Utils::wp_parse_args_r( $args['plugin_dependency'], array(
 				array(
 					'plugin_path'   => '', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php
 					'plugin_name'   => '', // Plugin name
@@ -141,7 +141,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\Plugin_Dependency_Manager' ) ) {
 		 * @return array
 		 */
 		function get_failed_requirements() {
-			$required_plugins = $this->get_setup_args()['requires_plugins'];
+			$required_plugins = $this->get_setup_args()['plugin_dependency'];
 			if ( empty( $this->failed_requirements ) ) {
 				$this->failed_requirements = array();
 				foreach ( $required_plugins as $plugin ) {

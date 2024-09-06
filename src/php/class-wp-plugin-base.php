@@ -219,8 +219,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		 * @return void
 		 */
 		function handle_activation_deactivation() {
-			$setup_args = $this->get_setup_args();
-			$file       = plugin_basename( $setup_args['file_path'] );
+			$file       = $this->get_plugin_basename();
 
 			// Activation.
 			if ( 'activate_' . $file === current_filter() ) {
@@ -277,10 +276,10 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		 * @return void
 		 */
 		function version_checking() {
-			$setup_args     = $this->get_setup_args();
-			$versioning     = $setup_args['versioning'] ?? '';
-			$version = $versioning['version'] ?? '';
-			$meta_key       = $versioning['version_meta'] ?? '';
+			$setup_args = $this->get_setup_args();
+			$versioning = $setup_args['versioning'] ?? '';
+			$version    = $versioning['version'] ?? '';
+			$meta_key   = $versioning['version_meta'] ?? '';
 			if ( ! empty( $meta_key ) ) {
 				$old_version = $this->db->get_option( $meta_key, '' );
 			}
@@ -307,7 +306,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			$domain            = $localization_data['domain'] ?? '';
 			$relative_path     = $localization_data['relative_path'] ?? '';
 			if ( ! empty( $domain ) && ! empty( $relative_path ) ) {
-				load_plugin_textdomain( $domain, false, dirname( plugin_basename( $setup_args['file_path'] ) ) . '/' . untrailingslashit( $relative_path ) . '/' );
+				load_plugin_textdomain( $domain, false, dirname( $this->get_plugin_basename() ) . '/' . untrailingslashit( $relative_path ) . '/' );
 			}
 		}
 
@@ -322,8 +321,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		 * @return void
 		 */
 		function add_action_links( $action_links = array() ) {
-			$setup_args = $this->get_setup_args();
-			add_filter( 'plugin_action_links_' . plugin_basename( $setup_args['file_path'] ), function ( $links ) use ( $action_links ) {
+			add_filter( 'plugin_action_links_' . $this->get_plugin_basename(), function ( $links ) use ( $action_links ) {
 				$custom_links = array();
 				foreach ( $action_links as $link_info ) {
 					$link           = $link_info['link'] ?? '';
@@ -406,6 +404,47 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			}
 
 			return $result;
+		}
+
+		/**
+		 * get_plugin_version.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return string
+		 */
+		function get_plugin_version() {
+			$setup_args = $this->get_setup_args();
+			$versioning = $setup_args['versioning'] ?? '';
+			$version    = $versioning['version'] ?? '';
+			return $version;
+		}
+
+		/**
+		 * get_file_path.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return string
+		 */
+		function get_plugin_file_path() {
+			$setup_args = $this->get_setup_args();
+			return $setup_args['file_path'];
+		}
+
+		/**
+		 * get_basename.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return string
+		 */
+		function get_plugin_basename() {
+			$file_path = $this->get_plugin_file_path();
+			return plugin_basename( $file_path );
 		}
 
 	}

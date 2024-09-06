@@ -98,7 +98,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			) );
 
 			// Plugin dependency.
-			$args['requires_plugins'] = $this->wp_parse_args_r( $args['requires_plugins'], array(
+			$args['requires_plugins'] = Array_Utils::wp_parse_args_r( $args['requires_plugins'], array(
 				array(
 					'plugin_path'   => '', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php
 					'plugin_name'   => '', // Plugin name

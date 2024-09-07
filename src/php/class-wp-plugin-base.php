@@ -58,7 +58,9 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		public $db;
 
 		/**
-		 * events.
+		 * Events.
+		 *
+		 * Can be triggered by simply adding a function "on_{$event}" with one parameter. Ex: function on_plugin_activation( $args = null ).
 		 *
 		 * @since 1.0.0
 		 *

@@ -58,9 +58,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		public $db;
 
 		/**
-		 * Events.
-		 *
-		 * Can be triggered by simply adding a function "on_{$event}" with one parameter. Ex: function on_plugin_activation( $args = null ).
+		 * events.
 		 *
 		 * @since 1.0.0
 		 *
@@ -121,10 +119,10 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			// Plugin dependency.
 			$args['plugin_dependency'] = Array_Utils::wp_parse_args_r( $args['plugin_dependency'], array(
 				array(
-					'plugin_path'   => '', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php
-					'plugin_name'   => '', // Plugin name
-					'status'        => 'enabled', // enabled | disabled
-					'error_message' => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{required_plugin_status}.</strong>',
+					'plugin_path'   => 'woocommerce/woocommerce.php', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php.
+					'plugin_name'   => 'WooCommerce',
+					'plugin_status' => 'enabled', // enabled | disabled.
+					'error_notice'  => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{required_plugin_status}</strong>.',
 					'show_notice'   => true
 				)
 			) );

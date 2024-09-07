@@ -63,10 +63,10 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\Plugin_Dependency_Manager' ) ) {
 			// Plugin dependency.
 			$args['plugin_dependency'] = Array_Utils::wp_parse_args_r( $args['plugin_dependency'], array(
 				array(
-					'plugin_path'   => '', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php
-					'plugin_name'   => '', // Plugin name
-					'status'        => 'enabled', // enabled | disabled
-					'error_message' => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{required_plugin_status}.</strong>',
+					'plugin_path'   => 'woocommerce/woocommerce.php', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php.
+					'plugin_name'   => 'WooCommerce',
+					'plugin_status' => 'enabled', // enabled | disabled.
+					'error_notice'  => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{required_plugin_status}</strong>.',
 					'show_notice'   => true
 				)
 			) );
@@ -115,13 +115,13 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\Plugin_Dependency_Manager' ) ) {
 			$failed_requirements = $this->get_failed_requirements();
 			$html                = '';
 			foreach ( $failed_requirements as $plugin ) {
-				if ( $plugin['show_notice'] && $plugin['error_message'] ) {
+				if ( $plugin['show_notice'] && $plugin['error_notice'] ) {
 					$array_from_to = array(
 						'{dependent_plugin_name}'  => $this->get_dependent_plugin_name(),
 						'{required_plugin_name}'   => $plugin['plugin_name'],
-						'{required_plugin_status}' => $plugin['status']
+						'{required_plugin_status}' => $plugin['plugin_status']
 					);
-					$text          = str_replace( array_keys( $array_from_to ), $array_from_to, $plugin['error_message'] );
+					$text          = str_replace( array_keys( $array_from_to ), $array_from_to, $plugin['error_notice'] );
 					$html          .= '<div class="notice notice-error"><p>';
 					$html          .= $text;
 					$html          .= '</p></div>';
@@ -149,8 +149,8 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\Plugin_Dependency_Manager' ) ) {
 						continue;
 					}
 					if (
-						( 'enabled' === $plugin['status'] && ! $this->is_plugin_active( $plugin['plugin_path'] ) )
-						|| ( 'disabled' === $plugin['status'] && $this->is_plugin_active( $plugin['plugin_path'] ) )
+						( 'enabled' === $plugin['plugin_status'] && ! $this->is_plugin_active( $plugin['plugin_path'] ) )
+						|| ( 'disabled' === $plugin['plugin_status'] && $this->is_plugin_active( $plugin['plugin_path'] ) )
 					) {
 						$this->failed_requirements[] = $plugin;
 					}

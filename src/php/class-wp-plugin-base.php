@@ -179,7 +179,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		 */
 		function init() {
 			// Makes sure the init method only calls once.
-			if ( $this->has_initialized() ) {
+			if ( $this->initialized ) {
 				return false;
 			}
 			$this->initialized = true;
@@ -188,7 +188,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			$args = $this->get_setup_args();
 
 			// Do not init if plugin requirements didn't pass.
-			if ( $this->plugin_requirements_passed() ) {
+			if ( ! $this->plugin_requirements_passed() ) {
 				return false;
 			}
 
@@ -462,18 +462,6 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		function get_plugin_basename() {
 			$file_path = $this->get_plugin_file_path();
 			return plugin_basename( $file_path );
-		}
-
-		/**
-		 * get_basename.
-		 *
-		 * @version 1.0.0
-		 * @since   1.0.0
-		 *
-		 * @return bool
-		 */
-		function has_initialized(){
-			return $this->initialized;
 		}
 
 	}

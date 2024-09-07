@@ -67,7 +67,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\Plugin_Dependency_Manager' ) ) {
 					'plugin_name'   => 'WooCommerce',
 					'plugin_status' => 'enabled', // enabled | disabled.
 					'error_notice'  => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{required_plugin_status}</strong>.',
-					'show_notice'   => true
+					'error_actions' => array( 'show_error_notice' )
 				)
 			) );
 
@@ -115,7 +115,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\Plugin_Dependency_Manager' ) ) {
 			$failed_requirements = $this->get_failed_requirements();
 			$html                = '';
 			foreach ( $failed_requirements as $plugin ) {
-				if ( $plugin['show_notice'] && $plugin['error_notice'] ) {
+				if ( in_array( 'show_error_notice', $plugin['error_actions'] ) && $plugin['error_notice'] ) {
 					$array_from_to = array(
 						'{dependent_plugin_name}'  => $this->get_dependent_plugin_name(),
 						'{required_plugin_name}'   => $plugin['plugin_name'],

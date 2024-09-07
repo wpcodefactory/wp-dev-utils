@@ -56,7 +56,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\Plugin_Dependency_Manager' ) ) {
 		 */
 		function setup( $args = null ) {
 			$args = wp_parse_args( $args, array(
-				'file_path'        => '', // Dependent plugin file path.
+				'file_path'         => '', // Dependent plugin file path.
 				'plugin_dependency' => array(),
 			) );
 
@@ -67,7 +67,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\Plugin_Dependency_Manager' ) ) {
 					'plugin_name'   => 'WooCommerce',
 					'plugin_status' => 'enabled', // enabled | disabled.
 					'error_notice'  => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{required_plugin_status}</strong>.',
-					'error_actions' => array( 'show_error_notice' )
+					'error_actions' => array() // Possible values: show_error_notice, disable_dependent_plugin.
 				)
 			) );
 
@@ -84,6 +84,27 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\Plugin_Dependency_Manager' ) ) {
 		 */
 		function init() {
 			add_action( 'admin_notices', array( $this, 'show_error_notices' ) );
+			add_action( 'admin_init', array( $this, 'deactivate_plugin_on_failed_requirements' ) );
+		}
+
+		/**
+		 * Deactivates the dependent plugin on failed requirements.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return void
+		 */
+		function deactivate_plugin_on_failed_requirements() {
+			$failed_requirements = $this->get_failed_requirements();
+			foreach ( $failed_requirements as $plugin ) {
+				if ( in_array( 'disable_dependent_plugin', $plugin['error_actions'] ) ) {
+					deactivate_plugins( plugin_basename( $this->get_setup_args()['file_path'] ) );
+					if ( isset( $_GET['activate'] ) ) {
+						unset( $_GET['activate'] );
+					}
+				}
+			}
 		}
 
 		/**

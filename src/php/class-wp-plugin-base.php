@@ -123,7 +123,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 					'plugin_name'   => 'WooCommerce',
 					'plugin_status' => 'enabled', // enabled | disabled.
 					'error_notice'  => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{required_plugin_status}</strong>.',
-					'error_actions' => array( 'show_error_notice' )
+					'error_actions' => array() // Possible values: show_error_notice, disable_dependent_plugin.
 				)
 			) );
 

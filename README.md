@@ -12,5 +12,64 @@ For now, this is what it offers:
 - A cacheable get_option() feature.
 - A Singleton class.
 
-### How to use it?
-Extend the `WP_Plugin_Base` class from your main plugin class.
+### How to use it? Step 1
+Extend the `WP_Plugin_Base` class from your main plugin class, override the `init()` method and put your code there. Example:
+
+```php
+<?php
+namespace My_Plugin_Namespace;
+
+use WPFactory\WP_Dev_Utils\WP_Plugin_Base;
+
+if ( ! class_exists( 'My_Plugin_Namespace\Plugin' ) ) {
+
+	class Plugin extends WP_Plugin_Base {
+		
+		public function init() {
+			parent::init();
+			// Put your code here.
+		}
+
+	}
+
+}
+```
+
+### How to use it? Step 2
+Get the plugin with the get_instance() static method, run the setup() method and call the init() method(). Example:
+
+```php
+// Loads Composer.
+require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+
+// Gets the plugin.
+$plugin = \My_Plugin_Namespace\Plugin::get_instance();
+
+// Setups the plugin
+$plugin->setup( array(
+	'file_path'         => __FILE__,
+	'versioning'        => array(
+		'version'      => '1.0.0',
+		'version_meta' => 'my_plugin_prefix_version',
+	),
+	'localization'      => array(
+		'action_hook'   => 'plugins_loaded',
+		'domain'        => 'my-plugin',
+		'relative_path' => 'langs',
+	),
+	'plugin_dependency' => array(
+		array(
+			'plugin_path'   => 'woocommerce/woocommerce.php', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php.
+			'plugin_name'   => 'WooCommerce',
+			'plugin_status' => 'enabled', // enabled | disabled.
+			'error_notice'  => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{required_plugin_status}</strong>.',
+			'error_actions' => array( 'show_error_notice' )  // Possible values: show_error_notice, disable_dependent_plugin.
+		),
+	)
+) );
+
+// Initializes the plugin.
+if ( $plugin->plugin_requirements_passed() ) {
+  $plugin->init();
+}
+```

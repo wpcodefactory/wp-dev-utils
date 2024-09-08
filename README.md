@@ -49,7 +49,7 @@ function initialize_plugin(){
 	// Gets the plugin.
 	$plugin = \My_Plugin_Namespace\Plugin::get_instance();
 	
-	// Setups the plugin
+	// Setups the plugin.
 	$plugin->setup( array(
 		'file_path'         => __FILE__,
 		'versioning'        => array(

@@ -2,7 +2,7 @@
 
 A collection of useful codes and utilities for WordPress plugin development by WPFactory.
 
-## WP_Plugin_Base Class
+## WP_Plugin_Base class
 A class that will give your plugin some useful and convenient features that you are tired of creating from scratch every time you create a new plugin.
 
 For now, this is what it offers:
@@ -11,6 +11,9 @@ For now, this is what it offers:
 - Plugin dependency options.
 - A cacheable get_option() feature.
 - A Singleton class.
+
+### Documentation
+[WP_Plugin_Base class](https://github.com/wpcodefactory/wp-dev-utils/wiki/WP_Plugin_Base-class)
 
 ### How to use it?
 Extend the `WP_Plugin_Base` class from your main plugin class, override the `init()` method and put your code there. Example:

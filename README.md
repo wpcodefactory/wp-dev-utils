@@ -20,7 +20,7 @@ Set your `composer.json` like this:
     "preferred-install": "dist"
   }
 }
-
+```
 
 ## WP_Plugin_Base class
 A class designed to provide useful and convenient features for your plugin, so you no longer have to create them from scratch with every new project.

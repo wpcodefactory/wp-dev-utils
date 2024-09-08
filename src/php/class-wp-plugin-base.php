@@ -216,7 +216,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			$hpos_compatibility = $setup_args['hpos_compatibility'];
 			if ( 'ignore' !== $hpos_compatibility ) {
 				if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-					\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, 'compatible' === $hpos_compatibility );
+					\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', $this->get_plugin_basename(), 'compatible' === $hpos_compatibility );
 				}
 			}
 		}

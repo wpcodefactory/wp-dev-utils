@@ -81,6 +81,16 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		protected $initialized = false;
 
 		/**
+		 * Pre Initialized.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @var bool
+		 */
+		protected $pre_initialized = false;
+
+		/**
 		 * Setups the class.
 		 *
 		 * @version 1.0.0
@@ -92,11 +102,12 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		 */
 		function setup( $args = null ) {
 			$args = wp_parse_args( $args, array(
-				'file_path'         => '',
-				'use_db_manager'    => true,
-				'versioning'        => array(),
-				'localization'      => array(),
+				'file_path'          => '',
+				'use_db_manager'     => true,
+				'versioning'         => array(),
+				'localization'       => array(),
 				'plugin_dependency'  => array(),
+				'hpos_compatibility' => 'ignore', // compatible | incompatible | ignore.
 				'action_links'      => array(
 					//array( 'label' => 'Test', 'link' => 'http://test.com', 'target' => '_self' ),
 					//array( 'label' => 'Test', 'link' => 'http://test.com', 'target' => '_blank' ),
@@ -128,6 +139,8 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			) );
 
 			$this->setup_args = $args;
+
+			$this->pre_init();
 		}
 
 		/**
@@ -167,6 +180,45 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			}
 
 			return true;
+		}
+
+		/**
+		 * Pre Initializes the class.
+		 *
+		 * Will always be called, and before the init() method, even with false === plugin_requirements_passed().
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return false|void
+		 */
+		function pre_init() {
+			// Makes sure the pre init method only calls once.
+			if ( $this->pre_initialized ) {
+				return false;
+			}
+			$this->pre_initialized = true;
+
+			// HPOS compatibility.
+			add_action( 'before_woocommerce_init', array( $this, 'declare_hpos_compatibility' ) );
+		}
+
+		/**
+		 * HPOS compatibility.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return void
+		 */
+		function declare_hpos_compatibility() {
+			$setup_args         = $this->get_setup_args();
+			$hpos_compatibility = $setup_args['hpos_compatibility'];
+			if ( 'ignore' !== $hpos_compatibility ) {
+				if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+					\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, 'compatible' === $hpos_compatibility );
+				}
+			}
 		}
 
 		/**

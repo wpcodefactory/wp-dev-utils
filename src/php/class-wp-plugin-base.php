@@ -103,11 +103,11 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		function setup( $args = null ) {
 			$args = wp_parse_args( $args, array(
 				'file_path'          => '',
+				'hpos_compatibility' => 'ignore', // compatible | incompatible | ignore.
 				'use_db_manager'     => true,
 				'versioning'         => array(),
 				'localization'       => array(),
 				'plugin_dependency'  => array(),
-				'hpos_compatibility' => 'ignore', // compatible | incompatible | ignore.
 				'action_links'      => array(
 					//array( 'label' => 'Test', 'link' => 'http://test.com', 'target' => '_self' ),
 					//array( 'label' => 'Test', 'link' => 'http://test.com', 'target' => '_blank' ),

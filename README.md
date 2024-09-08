@@ -9,6 +9,7 @@ For now, this is what it offers:
 - Convenient way for setting the plugin version, with a customized meta that will be responsible for detecting when the plugin updates.
 - Localization parameters, such as, localization initialization hook, localization domain and relative path.
 - Plugin dependency options.
+- HPOS compatibility parameter.
 - A cacheable get_option() feature.
 - A Singleton class.
 

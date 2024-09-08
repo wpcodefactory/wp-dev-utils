@@ -36,7 +36,7 @@ if ( ! class_exists( 'My_Plugin_Namespace\Plugin' ) ) {
 ```
 
 ### How to use it? Step 2
-Get the plugin with the `get_instance()` static method, run the `setup()` method and call the `init()` method. Example:
+Get the plugin with the `get_instance()` static method, run the `setup()` and then the `init()` method. Example:
 
 ```php
 namespace My_Plugin_Namespace;

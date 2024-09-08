@@ -13,7 +13,7 @@ For now, this is what it offers:
 - A Singleton class.
 
 ### Documentation
-[WP_Plugin_Base class](https://github.com/wpcodefactory/wp-dev-utils/wiki/WP_Plugin_Base-class)
+[WP_Plugin_Base class documentation](https://github.com/wpcodefactory/wp-dev-utils/wiki/WP_Plugin_Base-class).
 
 ### How to use it?
 Extend the `WP_Plugin_Base` class from your main plugin class, override the `init()` method and put your code there. Example:

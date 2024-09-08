@@ -12,7 +12,7 @@ For now, this is what it offers:
 - A cacheable get_option() feature.
 - A Singleton class.
 
-### How to use it? Step 1
+### How to use it?
 Extend the `WP_Plugin_Base` class from your main plugin class, override the `init()` method and put your code there. Example:
 
 ```php
@@ -35,7 +35,6 @@ if ( ! class_exists( 'My_Plugin_Namespace\Plugin' ) ) {
 }
 ```
 
-### How to use it? Step 2
 Get the plugin with the `get_instance()` static method, run the `setup()` and then the `init()` method. Example:
 
 ```php

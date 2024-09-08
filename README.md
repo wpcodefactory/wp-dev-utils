@@ -19,7 +19,6 @@ For now, this is what it offers:
 Extend the `WP_Plugin_Base` class from your main plugin class, override the `init()` method and put your code there. Example:
 
 ```php
-<?php
 namespace My_Plugin_Namespace;
 
 use WPFactory\WP_Dev_Utils\WP_Plugin_Base;

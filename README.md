@@ -3,7 +3,7 @@
 A collection of useful codes and utilities for WordPress plugin development by WPFactory.
 
 ## WP_Plugin_Base class
-A class that will give your plugin some useful and convenient features that you are tired of creating from scratch every time you create a new plugin.
+A class designed to provide useful and convenient features for your plugin, so you no longer have to create them from scratch with every new project.
 
 For now, this is what it offers:
 - Convenient way for setting the plugin version, with a customized meta that will be responsible for detecting when the plugin updates.

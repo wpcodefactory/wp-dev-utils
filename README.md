@@ -1,6 +1,6 @@
 # WP Dev Utils 
 
-A collection of useful codes and utilities for WordPress plugin development by WPFactory
+A collection of useful codes and utilities for WordPress plugin development by WPFactory.
 
 ## WP_Plugin_Base Class
 A class that will give your plugin some useful and convenient features that you are tired of creating from scratch every time you create a new plugin.

@@ -49,27 +49,7 @@ function initialize_plugin(){
 	$plugin = \My_Plugin_Namespace\Plugin::get_instance();
 	
 	// Setups the plugin.
-	$plugin->setup( array(
-		'file_path'         => __FILE__,
-		'versioning'        => array(
-			'version'      => '1.0.0',
-			'version_meta' => 'my_plugin_prefix_version',
-		),
-		'localization'      => array(
-			'action_hook'   => 'plugins_loaded',
-			'domain'        => 'my-plugin',
-			'relative_path' => 'langs',
-		),
-		'plugin_dependency' => array(
-			array(
-				'plugin_path'   => 'woocommerce/woocommerce.php', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php.
-				'plugin_name'   => 'WooCommerce',
-				'plugin_status' => 'enabled', // enabled | disabled.
-				'error_notice'  => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{required_plugin_status}</strong>.',
-				'error_actions' => array( 'show_error_notice' )  // Possible values: show_error_notice, disable_dependent_plugin.
-			),
-		)
-	) );
+	$plugin->setup();
 	
 	// Initializes the plugin.
 	if ( $plugin->plugin_requirements_passed() ) {

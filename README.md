@@ -7,7 +7,7 @@ A class designed to provide useful and convenient features for your plugin, so y
 
 For now, this is what it offers:
 - Convenient way for setting the plugin version, with a customized meta that will be responsible for detecting when the plugin updates.
-- Localization parameters, such as, localization initialization hook, localization domain and relative path
+- Localization parameters, such as, localization initialization hook, localization domain and relative path.
 - Plugin dependency options.
 - A cacheable get_option() feature.
 - A Singleton class.

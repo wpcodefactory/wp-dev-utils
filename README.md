@@ -80,6 +80,8 @@ function initialize_plugin(){
 
 // Initializes the plugin on specific WordPress Hooks.
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\initialize_plugin' );
+register_activation_hook( __FILE__, __NAMESPACE__ . '\\initialize_plugin' );
+register_deactivation_hook( __FILE__, __NAMESPACE__ . '\\initialize_plugin' );
 ```
 
 ### Installation

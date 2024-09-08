@@ -36,40 +36,51 @@ if ( ! class_exists( 'My_Plugin_Namespace\Plugin' ) ) {
 ```
 
 ### How to use it? Step 2
-Get the plugin with the get_instance() static method, run the setup() method and call the init() method(). Example:
+Get the plugin with the `get_instance()` static method, run the `setup()` method and call the `init()` method. Example:
 
 ```php
-// Loads Composer.
-require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
-
-// Gets the plugin.
-$plugin = \My_Plugin_Namespace\Plugin::get_instance();
-
-// Setups the plugin
-$plugin->setup( array(
-	'file_path'         => __FILE__,
-	'versioning'        => array(
-		'version'      => '1.0.0',
-		'version_meta' => 'my_plugin_prefix_version',
-	),
-	'localization'      => array(
-		'action_hook'   => 'plugins_loaded',
-		'domain'        => 'my-plugin',
-		'relative_path' => 'langs',
-	),
-	'plugin_dependency' => array(
-		array(
-			'plugin_path'   => 'woocommerce/woocommerce.php', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php.
-			'plugin_name'   => 'WooCommerce',
-			'plugin_status' => 'enabled', // enabled | disabled.
-			'error_notice'  => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{required_plugin_status}</strong>.',
-			'error_actions' => array( 'show_error_notice' )  // Possible values: show_error_notice, disable_dependent_plugin.
-		),
-	)
-) );
+namespace My_Plugin_Namespace;
 
 // Initializes the plugin.
-if ( $plugin->plugin_requirements_passed() ) {
-  $plugin->init();
+function initialize_plugin(){
+	// Loads Composer.
+	require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+	
+	// Gets the plugin.
+	$plugin = \My_Plugin_Namespace\Plugin::get_instance();
+	
+	// Setups the plugin
+	$plugin->setup( array(
+		'file_path'         => __FILE__,
+		'versioning'        => array(
+			'version'      => '1.0.0',
+			'version_meta' => 'my_plugin_prefix_version',
+		),
+		'localization'      => array(
+			'action_hook'   => 'plugins_loaded',
+			'domain'        => 'my-plugin',
+			'relative_path' => 'langs',
+		),
+		'plugin_dependency' => array(
+			array(
+				'plugin_path'   => 'woocommerce/woocommerce.php', // Path to the plugin file relative to the plugins directory. Ex:plugin-directory/plugin-file.php.
+				'plugin_name'   => 'WooCommerce',
+				'plugin_status' => 'enabled', // enabled | disabled.
+				'error_notice'  => '<strong>{dependent_plugin_name}</strong> depends on <strong>{required_plugin_name}</strong> plugin <strong>{required_plugin_status}</strong>.',
+				'error_actions' => array( 'show_error_notice' )  // Possible values: show_error_notice, disable_dependent_plugin.
+			),
+		)
+	) );
+	
+	// Initializes the plugin.
+	if ( $plugin->plugin_requirements_passed() ) {
+		$plugin->init();
+	}
 }
+
+// Initializes the plugin on specific WordPress Hooks.
+add_action( 'plugins_loaded', __NAMESPACE__ . '\\initialize_plugin' );
+register_activation_hook( __FILE__, __NAMESPACE__ . '\\initialize_plugin' );
+register_deactivation_hook( __FILE__, __NAMESPACE__ . '\\initialize_plugin' );
+
 ```

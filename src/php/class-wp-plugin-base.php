@@ -297,8 +297,8 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		function initialize_class_loading() {
 			$setup_args          = $this->get_setup_args();
 			$class_loading       = $setup_args['class_factory'] ?? '';
-			$base_namespace      = $class_loading['version'] ?? '';
-			$priority_namespaces = $class_loading['version_meta'] ?? array();
+			$base_namespace      = $class_loading['base_namespace'] ?? '';
+			$priority_namespaces = $class_loading['priority_namespaces'] ?? array();
 			$this->class_factory = new Class_Factory( $base_namespace, $priority_namespaces );
 		}
 

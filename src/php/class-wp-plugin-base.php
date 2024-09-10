@@ -117,7 +117,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 				'versioning'         => array(),
 				'localization'       => array(),
 				'plugin_dependency'  => array(),
-				'class_loading'      => array(),
+				'factory'      => array(),
 				'action_links'      => array(
 					//array( 'label' => 'Test', 'link' => 'http://test.com', 'target' => '_self' ),
 					//array( 'label' => 'Test', 'link' => 'http://test.com', 'target' => '_blank' ),
@@ -138,7 +138,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			) );
 
 			// Class loading.
-			$args['class_loading'] = wp_parse_args( $args['class_loading'], array(
+			$args['factory'] = wp_parse_args( $args['factory'], array(
 				'base_namespace'      => '',
 				'priority_namespaces' => array(),
 			) );
@@ -296,7 +296,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		 */
 		function initialize_class_loading() {
 			$setup_args          = $this->get_setup_args();
-			$class_loading       = $setup_args['class_loading'] ?? '';
+			$class_loading       = $setup_args['factory'] ?? '';
 			$base_namespace      = $class_loading['version'] ?? '';
 			$priority_namespaces = $class_loading['version_meta'] ?? array();
 			$this->class_factory = new Class_Factory( $base_namespace, $priority_namespaces );

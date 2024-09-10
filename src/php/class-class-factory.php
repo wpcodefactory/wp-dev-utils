@@ -61,10 +61,10 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\Class_Factory' ) ) {
 		 * @return mixed|object|null
 		 */
 		public function create( $className, ...$params ) {
-			// Resolve the full class name to load
+			// Resolve the full class name to load.
 			$classToLoad = $this->resolve_class_name( $className );
 			if ( class_exists( $classToLoad ) ) {
-				// Use reflection to instantiate the class with parameters
+				// Use reflection to instantiate the class with parameters.
 				$reflection = new \ReflectionClass( $classToLoad );
 
 				return $reflection->newInstanceArgs( $params );

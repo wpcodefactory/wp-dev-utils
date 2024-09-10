@@ -58,6 +58,15 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		public $db;
 
 		/**
+		 * Class Factory.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @var Class_Factory
+		 */
+		public $class_factory;
+
+		/**
 		 * events.
 		 *
 		 * @since 1.0.0
@@ -108,6 +117,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 				'versioning'         => array(),
 				'localization'       => array(),
 				'plugin_dependency'  => array(),
+				'class_loading'      => array(),
 				'action_links'      => array(
 					//array( 'label' => 'Test', 'link' => 'http://test.com', 'target' => '_self' ),
 					//array( 'label' => 'Test', 'link' => 'http://test.com', 'target' => '_blank' ),
@@ -127,6 +137,12 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 				'version_meta' => '',
 			) );
 
+			// Class loading.
+			$args['class_loading'] = wp_parse_args( $args['class_loading'], array(
+				'base_namespace'      => '',
+				'priority_namespaces' => array(),
+			) );
+
 			// Plugin dependency.
 			$args['plugin_dependency'] = Array_Utils::wp_parse_args_r( $args['plugin_dependency'], array(
 				array(
@@ -140,6 +156,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 
 			$this->setup_args = $args;
 
+			// Pre initializes.
 			$this->pre_init();
 		}
 
@@ -183,6 +200,24 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		}
 
 		/**
+		 * HPOS compatibility.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return void
+		 */
+		function declare_hpos_compatibility() {
+			$setup_args         = $this->get_setup_args();
+			$hpos_compatibility = $setup_args['hpos_compatibility'];
+			if ( 'ignore' !== $hpos_compatibility ) {
+				if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+					\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', $this->get_plugin_basename(), 'compatible' === $hpos_compatibility );
+				}
+			}
+		}
+
+		/**
 		 * Pre Initializes the class.
 		 *
 		 * Will always be called, and before the init() method, even with false === plugin_requirements_passed().
@@ -204,24 +239,6 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		}
 
 		/**
-		 * HPOS compatibility.
-		 *
-		 * @version 1.0.0
-		 * @since   1.0.0
-		 *
-		 * @return void
-		 */
-		function declare_hpos_compatibility() {
-			$setup_args         = $this->get_setup_args();
-			$hpos_compatibility = $setup_args['hpos_compatibility'];
-			if ( 'ignore' !== $hpos_compatibility ) {
-				if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-					\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', $this->get_plugin_basename(), 'compatible' === $hpos_compatibility );
-				}
-			}
-		}
-
-		/**
 		 * Initializes the class.
 		 *
 		 * @version 1.0.0
@@ -238,6 +255,9 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 
 			// Gets plugin setup args.
 			$args = $this->get_setup_args();
+
+			// Class loading.
+			$this->initialize_class_loading();
 
 			// Do not init if plugin requirements didn't pass.
 			if ( ! $this->plugin_requirements_passed() ) {
@@ -264,7 +284,22 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 
 			// Handles plugin activation and deactivation.
 			$this->handle_activation_deactivation();
+		}
 
+		/**
+		 * Initializes class loading.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return void
+		 */
+		function initialize_class_loading() {
+			$setup_args          = $this->get_setup_args();
+			$class_loading       = $setup_args['class_loading'] ?? '';
+			$base_namespace      = $class_loading['version'] ?? '';
+			$priority_namespaces = $class_loading['version_meta'] ?? array();
+			$this->class_factory = new Class_Factory( $base_namespace, $priority_namespaces );
 		}
 
 		/**
@@ -447,32 +482,6 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		 */
 		public function get_events() {
 			return $this->events;
-		}
-
-		/**
-		 * wp_parse_args_r.
-		 *
-		 * @version 1.0.0
-		 * @since   1.0.0
-		 *
-		 * @param $a
-		 * @param $b
-		 *
-		 * @return array
-		 */
-		function wp_parse_args_r( &$a, $b ) {
-			$a      = (array) $a;
-			$b      = (array) $b;
-			$result = $b;
-			foreach ( $a as $k => &$v ) {
-				if ( is_array( $v ) && isset( $result[ $k ] ) ) {
-					$result[ $k ] = $this->wp_parse_args_r( $v, $result[ $k ] );
-				} else {
-					$result[ $k ] = $v;
-				}
-			}
-
-			return $result;
 		}
 
 		/**

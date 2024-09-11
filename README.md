@@ -34,5 +34,5 @@ For now, this is what it offers:
 - A Singleton class.
 
 ### Documentation
-* [WP_Plugin_Base - How to use it?](https://github.com/wpcodefactory/wp-dev-utils/wiki/WP_Plugin_Base-%E2%80%90-How-to-use-it%3F)
-* [WP_Plugin_Base - Class documentation](https://github.com/wpcodefactory/wp-dev-utils/wiki/WP_Plugin_Base-%E2%80%90-Class-documentation).
+* [WP_Plugin_Base](https://github.com/wpcodefactory/wp-dev-utils/wiki/WP_Plugin_Base)
+* [Class_Factory](https://github.com/wpcodefactory/wp-dev-utils/wiki/Class_Factory-documentation)

@@ -34,6 +34,6 @@ For now, this is what it offers:
 - A cacheable get_option() feature.
 - A Singleton class.
 
-### Documentation
+## Documentation
 * [WP_Plugin_Base](https://github.com/wpcodefactory/wp-dev-utils/wiki/WP_Plugin_Base)
 * [Class_Factory](https://github.com/wpcodefactory/wp-dev-utils/wiki/Class_Factory)

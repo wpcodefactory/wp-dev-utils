@@ -27,6 +27,15 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\License_Type_Manager' ) ) {
 		protected $setup_args = array();
 
 		/**
+		 * License type.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @var string
+		 */
+		protected $license_type = null;
+
+		/**
 		 * setup.
 		 *
 		 * @version 1.0.0
@@ -61,14 +70,20 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\License_Type_Manager' ) ) {
 		 * @return int|mixed|string
 		 */
 		function detect_license_type_by_folder( $folder_checks, $default_license_type = 'free' ) {
+			if ( $this->license_type !== null ) {
+				return $this->license_type;
+			}
+
 			foreach ( $folder_checks as $license_type => $folders ) {
 				foreach ( $folders as $folder ) {
 					if ( file_exists( plugin_dir_path( $this->setup_args['file_path'] ) . '/' . untrailingslashit( $folder ) ) ) {
+						$this->license_type = $license_type;
 						return $license_type;
 					}
 				}
 			}
 
+			$this->license_type = $default_license_type;
 			return $default_license_type;
 		}
 	}

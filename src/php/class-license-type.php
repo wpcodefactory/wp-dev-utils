@@ -18,6 +18,15 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\License_Type' ) ) {
 	class License_Type {
 
 		/**
+		 * Setup args.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @var array
+		 */
+		protected $setup_args = array();
+
+		/**
 		 * setup.
 		 *
 		 * @version 1.0.0
@@ -54,7 +63,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\License_Type' ) ) {
 		function detect_license_type_by_folder( $folder_checks, $default_license_type = 'free' ) {
 			foreach ( $folder_checks as $license_type => $folders ) {
 				foreach ( $folders as $folder ) {
-					if ( file_exists( $folder ) ) {
+					if ( file_exists( plugin_dir_path( $this->setup_args['file_path'] ) . '/' . untrailingslashit( $folder ) ) ) {
 						return $license_type;
 					}
 				}

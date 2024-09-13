@@ -1,6 +1,6 @@
 <?php
 /**
- * License type
+ * License type manager
  *
  * @version 1.0.0
  * @since   1.0.0
@@ -13,9 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-if ( ! class_exists( 'WPFactory\WP_Dev_Utils\License_Type' ) ) {
+if ( ! class_exists( 'WPFactory\WP_Dev_Utils\License_Type_Manager' ) ) {
 
-	class License_Type {
+	class License_Type_Manager {
 
 		/**
 		 * Setup args.

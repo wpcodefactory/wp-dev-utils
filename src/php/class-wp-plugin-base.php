@@ -113,6 +113,7 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 			$args = wp_parse_args( $args, array(
 				'file_path'          => '',
 				'hpos_compatibility' => 'ignore', // compatible | incompatible | ignore.
+				'license_type'       => 'free',
 				'use_db_manager'     => true,
 				'versioning'         => array(),
 				'localization'       => array(),
@@ -523,6 +524,19 @@ if ( ! class_exists( 'WPFactory\WP_Dev_Utils\WP_Plugin_Base' ) ) {
 		function get_plugin_basename() {
 			$file_path = $this->get_plugin_file_path();
 			return plugin_basename( $file_path );
+		}
+
+		/**
+		 * get_file_path.
+		 *
+		 * @version 1.0.0
+		 * @since   1.0.0
+		 *
+		 * @return string
+		 */
+		function get_plugin_license_type() {
+			$setup_args = $this->get_setup_args();
+			return $setup_args['license_type'];
 		}
 
 	}
